@@ -64,7 +64,7 @@ int get(int x)
 		m = x % 100,
 		da = d[m];
 
-	if (y % 400 == 0 || (y % 4 == 0 && y % 100 != 0)) {
+	if (m == 2 && (y % 400 == 0 || (y % 4 == 0 && y % 100 != 0))) {
 		da++;
 	}
 	return da;
@@ -86,7 +86,7 @@ void init()
 	}
 }
 
-double gao(char *cityname, char *citydir)
+double gao(char *cityname, char *citydir, int &da)
 {
 	// printf("%s %s\n", cityname, citydir);
 	DIR *dir = opendir(citydir);
@@ -118,11 +118,18 @@ double gao(char *cityname, char *citydir)
 			int cc = 0;
 			int t[2] = {0, 0};
 			for (int i = 0; buf[i]; ) {
-				if (buf[i] >= '0' && buf[i] <= '9') {
+				if (buf[i] == '-' || (buf[i] >= '0' && buf[i] <= '9')) {
+					int sign = 1;
+					if(buf[i] == '-') {
+						sign = -1;
+						i++;
+					}
+
 					while (buf[i] >= '0' && buf[i] <= '9') {
 						t[cc] = t[cc] * 10 + buf[i] - '0';
 						i++;
 					}
+					t[cc] = sign * t[cc];
 					cc++;
 				} else {
 					i++;
@@ -133,13 +140,18 @@ double gao(char *cityname, char *citydir)
 
 			month[Index] += t[0] - t[1];
 
+			// printf("%s %s %s %d %d %d %d %d\n", cityname, dnt->d_name,  buf, t[0], t[1], Index, cnt[Index], month[Index]);
 			fclose(fp);
 		}
 	}
 
-	double x = 0;
+	double x = -1;
 	rep(i, 1700) {
-		upto(x, (double)month[i] / cnt[i]);
+		double ret = (double)month[i] / cnt[i];
+		if (x < ret) {
+			x = ret;
+			da = i + BB;
+		}
 	}
 	return x;
 }
@@ -158,13 +170,14 @@ int main()
 	char citys[1100][50];
 	int citys_cnt = 0;
 	double ans[1100];
+	int ans2[1100];
 	struct dirent *dnt;
 	while ((dnt = readdir(dir)) != NULL) {
 		strcpy(citydir, dirbase);
 		strcat(citydir, dnt->d_name);
 		// pok();
 		if (dnt->d_name[0] >= 'A' && dnt->d_name[0] <= 'Z') {
-			double ret = gao(dnt->d_name, citydir);
+			double ret = gao(dnt->d_name, citydir, ans2[citys_cnt]);
 			strcpy(citys[citys_cnt], dnt->d_name);
 			ans[citys_cnt] = ret;
 			citys_cnt++;
@@ -172,7 +185,7 @@ int main()
 		// pok();
 	}
 	rep(i, citys_cnt) {
-		printf("%15s %f\n", citys[i], ans[i]);
+		printf("%15s %6d %f\n", citys[i], ans2[i], ans[i]);
 	}
 	return 0;
 }

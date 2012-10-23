@@ -16,7 +16,7 @@
 
 using namespace std;
 
-//gys loves algorithm
+//GyS loves algorithm
 #define x first
 #define y second
 #define all(x) x.begin(), x.end()
@@ -60,7 +60,8 @@ bool leap[3000];
 
 void gao(const char *city)
 {
-	double ans = 0;
+	double ans = -1;
+	int day;
 	for (int i = 0; i < 1700; i++) {
 		int t = i + 199601;
 		int y = t / 100;
@@ -68,9 +69,13 @@ void gao(const char *city)
 		int d = days[m];
 		if (leap[y] && m == 2)
 			d++;
-		ans = max(ans, (double)month[i] / d);
+		double ret = (double)month[i] / d;
+		if (ans < ret) {
+			ans = ret;
+			day = t;
+		}
 	}
-	printf("%15s %lf\n", city, ans);
+	printf("%15s %6d %f\n", city, day, ans);
 }
 
 int main()
@@ -125,11 +130,19 @@ int main()
 				}
 			} else if (line[i] == ':') {
 				i++;
+				int sign = 1;
+
+				if (line[i] == '-') {
+					sign = -1;
+					i++;
+				}
+
 				int tmp = 0;
 				while (line[i] >= '0' && line[i] <= '9') {
 					tmp = tmp * 10 + line[i] - '0';
 					i++;
 				}
+				tmp = sign * tmp;
 				if (max_t == -inf) {
 					max_t = tmp;
 
