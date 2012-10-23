@@ -1,6 +1,6 @@
-A contest about reading many small file
---------------------------------------
-codes is used to attend the contest.
+A contest about reading many small files
+---------------------------------------
+these codes is used to attend the contest.
 
 Run these commands to free caches
 ---------------------------------
