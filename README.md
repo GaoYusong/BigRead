@@ -2,7 +2,7 @@ a contest about reading many small files
 ---------------------------------------
 these codes is used to attend the contest.
 
-the contest is completed, and i won the championship with the fastest solution run in 0m0.499s.
+the contest is completed, and i won the championship with the fastest solution run in 0m0.499s, the prize is a 250G SSD, pretty happy.
 
 run these commands to free caches
 ---------------------------------
