@@ -1,8 +1,10 @@
-A contest about reading many small files
+a contest about reading many small files
 ---------------------------------------
 these codes is used to attend the contest.
 
-Run these commands to free caches
+the contest is completed, and i won the championship with the fastest solution run in 0m0.499s.
+
+run these commands to free caches
 ---------------------------------
 
 	sync
